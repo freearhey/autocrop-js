@@ -10,6 +10,6 @@ it('can crop the image 1', async () => {
   const result = await autocrop(`data:image/png;base64,${base64}`)
 
   expect(result.data).toBe(expected.data)
-  expect(result.bbox).toBe(expected.bbox)
+  expect(result.bbox).toMatchObject(expected.bbox)
   expect(result.bgColor).toBe(expected.bgColor)
 })

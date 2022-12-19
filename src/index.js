@@ -3,49 +3,36 @@ import { createCanvas } from 'canvas'
 import { calcBoundaryBox, getBgColor, removeBg, rgbToHex, getPixels, hexToRgb } from './util.js'
 
 export default async function (dataURL, options = {}) {
-  let removeBackground = options.removeBackground || false
-  let colorThreshold = options.colorThreshold || 1
-
-  let origWidth
-  let origHeight
-  let croppedWidth
-  let croppedHeight
+  const removeBackground = options.removeBackground || false
+  const colorThreshold = options.colorThreshold || 1
 
   let _image = await Image.load(dataURL)
   _image = new Image(_image.width, _image.height, _image.getRGBAData())
+  // console.log(_image.width, _image.height)
 
-  origWidth = _image.width
-  origHeight = _image.height
-
-  let canvas = createCanvas(origWidth, origHeight)
-  let bgColor = getBgColor(_image)
+  const bgColorRGB = getBgColor(_image)
 
   if (removeBackground) {
-    _image = removeBg(_image, bgColor, colorThreshold)
+    _image = removeBg(_image, bgColorRGB, colorThreshold)
   }
 
   _image = _image.cropAlpha({ threshold: 10 })
 
-  let [x, y, width, height] = calcBoundaryBox(_image, bgColor)
+  const [x, y, width, height] = calcBoundaryBox(_image, bgColorRGB)
   _image = _image.crop({ x, y, width, height })
+  // console.log(x, y, width, height)
 
-  let c = _image.getCanvas()
-  let ctx = c.getContext('2d')
-
-  canvas.width = _image.width
-  canvas.height = _image.height
-
-  croppedWidth = canvas.width
-  croppedHeight = canvas.height
+  const base64 = _image.toBase64('image/png')
+  const bgColorHEX = rgbToHex(bgColorRGB)
 
   return {
-    data: canvas.toDataURL(),
+    data: `data:image/png;base64,${base64}`,
     bbox: {
       x,
       y,
       width,
       height
     },
-    bgColor
+    bgColor: bgColorHEX
   }
 }
