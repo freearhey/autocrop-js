@@ -29,7 +29,6 @@
     "jest": "latest"
   },
   "dependencies": {
-    "canvas": "^2.10.2",
     "image-js": "^0.35.2",
     "lodash": "^4.17.21",
     "pica": "^9.0.1"

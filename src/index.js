@@ -1,5 +1,4 @@
 import { Image } from 'image-js'
-import { createCanvas } from 'canvas'
 import { calcBoundaryBox, getBgColor, removeBg, rgbToHex, getPixels, hexToRgb } from './util.js'
 
 export default async function (dataURL, options = {}) {
