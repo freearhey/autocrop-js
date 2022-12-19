@@ -7,7 +7,7 @@ it('can crop the image 1', async () => {
   let expected = await loadExpected('image_1')
   let result = await autocrop(`data:image/png;base64,${base64}`)
 
-  expect(result.data).toBe(expected.data)
+  expect(result).toMatchObject(expected)
 })
 
 it('can crop the image 2', async () => {
@@ -15,7 +15,7 @@ it('can crop the image 2', async () => {
   let expected = await loadExpected('image_2')
   let result = await autocrop(`data:image/png;base64,${base64}`)
 
-  expect(result.data).toBe(expected.data)
+  expect(result).toMatchObject(expected)
 })
 
 it('can crop the image 3', async () => {
@@ -23,7 +23,7 @@ it('can crop the image 3', async () => {
   let expected = await loadExpected('image_3')
   let result = await autocrop(`data:image/png;base64,${base64}`)
 
-  expect(result.data).toBe(expected.data)
+  expect(result).toMatchObject(expected)
 })
 
 it('can crop the image 4', async () => {
@@ -31,7 +31,7 @@ it('can crop the image 4', async () => {
   let expected = await loadExpected('image_4')
   let result = await autocrop(`data:image/png;base64,${base64}`)
 
-  expect(result.data).toBe(expected.data)
+  expect(result).toMatchObject(expected)
 })
 
 fit('can crop the image 5', async () => {
@@ -39,7 +39,7 @@ fit('can crop the image 5', async () => {
   let expected = await loadExpected('image_5')
   let result = await autocrop(`data:image/png;base64,${base64}`)
 
-  expect(result.data).toBe(expected.data)
+  expect(result).toMatchObject(expected)
 })
 
 it('can crop the image 6', async () => {
@@ -47,7 +47,7 @@ it('can crop the image 6', async () => {
   let expected = await loadExpected('image_6')
   let result = await autocrop(`data:image/png;base64,${base64}`)
 
-  expect(result.data).toBe(expected.data)
+  expect(result).toMatchObject(expected)
 })
 
 function loadImage(filename) {
