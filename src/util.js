@@ -21,14 +21,40 @@ export function getPixels(image) {
   return _.chunk(image.getRGBAData(), 4)
 }
 
+function calcMaxColor(color) {
+  let alphaThreshold = 10
+  let maxIndex = 0
+  let maxValue = 0
+  let alpha = color[3] > alphaThreshold ? 255 : 0
+  color.slice(0, 3).forEach((value, i) => {
+    if (value > maxValue) {
+      maxIndex = i
+      maxValue = value
+    }
+  })
+
+  let output = [0, 0, 0, 0]
+  output[3] = alpha
+  if (alpha === 255) {
+    output[maxIndex] = maxValue
+  }
+
+  return output
+}
+
 export function calcBoundaryBox(image, bgColor) {
   let pixels = getPixels(image)
   let width = image.width
   let height = image.height
 
-  console.log('bgColor', bgColor)
+  // console.log('bgColor', bgColor)
   // console.log('width', width)
   // console.log('height', height)
+  bgColor = calcMaxColor(bgColor)
+  // console.log('maxColor', bgColor)
+
+  pixels = pixels.map(calcMaxColor)
+  // console.log('pixels0', pixels[300])
 
   let bgRow = Array(width).fill(Array.from(bgColor))
   // console.log('bgRow', bgRow.length)
