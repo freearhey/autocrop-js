@@ -26,7 +26,7 @@ export function calcBoundaryBox(image, bgColor) {
   let width = image.width
   let height = image.height
 
-  // console.log('bgColor', bgColor)
+  console.log('bgColor', bgColor)
   // console.log('width', width)
   // console.log('height', height)
 

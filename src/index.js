@@ -15,8 +15,6 @@ export default async function (dataURL, options = {}) {
     _image = removeBg(_image, bgColorRGB, colorThreshold)
   }
 
-  _image = _image.cropAlpha({ threshold: 10 })
-
   const [x, y, width, height] = calcBoundaryBox(_image, bgColorRGB)
   _image = _image.crop({ x, y, width, height })
   // console.log(x, y, width, height)
