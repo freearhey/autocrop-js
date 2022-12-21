@@ -2,60 +2,34 @@ import fs from 'fs'
 import path from 'path'
 import autocrop from '../src/index.js'
 
-it('can crop the image 1', async () => {
-  let base64 = loadImage('image_1.png')
-  let expected = await loadExpected('image_1')
-  let result = await autocrop(`data:image/png;base64,${base64}`)
+const images = ['image_1', 'image_2', 'image_3', 'image_4', 'image_5', 'image_6']
 
-  expect(result).toMatchObject(expected)
+describe('can crop the images without config', () => {
+  test.concurrent.each(images)('%s', async filename => {
+    let base64 = loadImage(`${filename}.png`)
+    let expected = await loadExpected(`test1/${filename}`)
+    let result = await autocrop(`data:image/png;base64,${base64}`)
+
+    expect(result).toMatchObject(expected)
+  })
 })
 
-it('can crop the image 2', async () => {
-  let base64 = loadImage('image_2.png')
-  let expected = await loadExpected('image_2')
-  let result = await autocrop(`data:image/png;base64,${base64}`)
+describe.only('can crop the images without config', () => {
+  test.concurrent.each(images)('%s', async filename => {
+    let base64 = loadImage(`${filename}.png`)
+    let expected = await loadExpected(`test2/${filename}`)
+    let result = await autocrop(`data:image/png;base64,${base64}`, { threshold: 10 })
 
-  expect(result).toMatchObject(expected)
-})
-
-it('can crop the image 3', async () => {
-  let base64 = loadImage('image_3.png')
-  let expected = await loadExpected('image_3')
-  let result = await autocrop(`data:image/png;base64,${base64}`)
-
-  expect(result).toMatchObject(expected)
-})
-
-it('can crop the image 4', async () => {
-  let base64 = loadImage('image_4.png')
-  let expected = await loadExpected('image_4')
-  let result = await autocrop(`data:image/png;base64,${base64}`)
-
-  expect(result).toMatchObject(expected)
-})
-
-it('can crop the image 5', async () => {
-  let base64 = loadImage('image_5.png')
-  let expected = await loadExpected('image_5')
-  let result = await autocrop(`data:image/png;base64,${base64}`)
-
-  expect(result).toMatchObject(expected)
-})
-
-it('can crop the image 6', async () => {
-  let base64 = loadImage('image_6.png')
-  let expected = await loadExpected('image_6')
-  let result = await autocrop(`data:image/png;base64,${base64}`)
-
-  expect(result).toMatchObject(expected)
+    expect(result).toMatchObject(expected)
+  })
 })
 
 function loadImage(filename) {
-  const image = fs.readFileSync(path.resolve(__dirname, `./__data__/input/${filename}`))
+  const image = fs.readFileSync(path.resolve(__dirname, `./__data__/images/${filename}`))
 
   return Buffer.from(image).toString('base64')
 }
 
-function loadExpected(filename) {
-  return import(`./__data__/expected/${filename}`).then(r => r.default)
+function loadExpected(filepath) {
+  return import(`./__data__/expected/${filepath}`).then(r => r.default)
 }
