@@ -28,14 +28,14 @@ Output:
 
 ```js
 {
-	bgColor: '#ffffff', // background color of the image
+  bgColor: '#ffffff', // background color of the image
   bbox: { // bounding box of the cut image fragment
     height: 188,
     width: 232,
     x: 26,
     y: 0
   },
-	dataURL: 'data:image/png;base64,iVB...' // Data URL of the cut image fragment
+  dataURL: 'data:image/png;base64,iVB...' // Data URL of the cut image fragment
 }
 ```
 
