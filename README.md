@@ -1,5 +1,9 @@
 # autocrop-js
 
+![Illustration of how autocrop-js works](illustration.png)
+
+Node.js utility that crops the background of an image.
+
 ## Installation
 
 ```bash
