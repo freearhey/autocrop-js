@@ -1,18 +1,5 @@
 import _ from 'lodash'
 
-export function removeBg(image, bgColor, colorThreshold) {
-  let pixels = getPixels(image)
-
-  pixels.forEach((pixel, i) => {
-    let dist = deltaE(pixel.slice(0, 3), bgColor.slice(0, 3))
-    if (dist < colorThreshold) {
-      image.setPixel(i, [0, 0, 0, 0])
-    }
-  })
-
-  return image
-}
-
 export function getBgColor(image) {
   return image.getPixel(0)
 }
@@ -21,25 +8,21 @@ export function getPixels(image) {
   return _.chunk(image.getRGBAData(), 4)
 }
 
-function calcMaxColor(color) {
-  let alphaThreshold = 10
-  let maxIndex = 0
-  let maxValue = 0
-  let alpha = color[3] > alphaThreshold ? 255 : 0
-  color.slice(0, 3).forEach((value, i) => {
-    if (value > maxValue) {
-      maxIndex = i
-      maxValue = value
-    }
+function calcMaxColor(color, threshold = 0, alphaThreshold = 0) {
+  if (color[3] <= alphaThreshold) return [0, 0, 0, 0]
+
+  return color.map(value => {
+    if (value === 0) return 0
+    const mod = (value + 1) % (threshold + 1)
+    value = value + (threshold - mod)
+    value = value > 255 ? 255 : value
+
+    return value
   })
+}
 
-  let output = [0, 0, 0, 0]
-  output[3] = alpha
-  if (alpha === 255) {
-    output[maxIndex] = maxValue
-  }
-
-  return output
+function removeBg(pixel, bgColor) {
+  return JSON.stringify(pixel) === JSON.stringify(bgColor) ? [0, 0, 0, 0] : pixel
 }
 
 export function calcBoundaryBox(image, bgColor) {
@@ -47,25 +30,20 @@ export function calcBoundaryBox(image, bgColor) {
   let width = image.width
   let height = image.height
 
-  // console.log('bgColor', bgColor)
-  // console.log('width', width)
-  // console.log('height', height)
-  bgColor = calcMaxColor(bgColor)
-  // console.log('maxColor', bgColor)
+  let maxColor = calcMaxColor(bgColor)
 
-  pixels = pixels.map(calcMaxColor)
-  // console.log('pixels0', pixels[300])
+  pixels = pixels.map(p => {
+    p = calcMaxColor(p)
+    p = removeBg(p, maxColor)
 
-  let bgRow = Array(width).fill(Array.from(bgColor))
-  // console.log('bgRow', bgRow.length)
+    return p
+  })
 
-  let bgCol = Array(height).fill(Array.from(bgColor))
-  // console.log('bgCol', bgCol.length)
+  const bgRow = Array(width).fill(Array.from([0, 0, 0, 0]))
+
+  const bgCol = Array(height).fill(Array.from([0, 0, 0, 0]))
 
   let rows = _.chunk(pixels, width)
-  // console.log('rows', rows.length)
-  // console.log('firstRow', rows[0])
-  // console.log('lastRow', rows[rows.length - 1])
 
   let cols = []
   Array(width)
@@ -79,9 +57,6 @@ export function calcBoundaryBox(image, bgColor) {
 
       cols.push(col)
     })
-  // console.log('cols', cols.length)
-  // console.log('firstCol', cols[0])
-  // console.log('lastCol', cols[cols.length - 1])
 
   let y1
   for (let i = 0; i < rows.length; i++) {
@@ -94,8 +69,6 @@ export function calcBoundaryBox(image, bgColor) {
     }
   }
 
-  // console.log('y1', y1)
-
   let y2
   for (let i = rows.length - 1; i > -1; i--) {
     let row = rows[i]
@@ -106,8 +79,6 @@ export function calcBoundaryBox(image, bgColor) {
       }
     }
   }
-
-  // console.log('y2', y2)
 
   let x1
   for (let i = 0; i < cols.length; i++) {
@@ -120,8 +91,6 @@ export function calcBoundaryBox(image, bgColor) {
     }
   }
 
-  // console.log('x1', x1)
-
   let x2
   for (let i = cols.length - 1; i > -1; i--) {
     let col = cols[i]
@@ -133,13 +102,8 @@ export function calcBoundaryBox(image, bgColor) {
     }
   }
 
-  // console.log('x2', x2)
-
   let newHeight = y2 - y1
   let newWidth = x2 - x1
-
-  // console.log('newWidth', newWidth)
-  // console.log('newHeight', newHeight)
 
   if (!newWidth || !newHeight) return [0, 0, width, height]
 

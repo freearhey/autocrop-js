@@ -34,7 +34,7 @@ it('can crop the image 4', async () => {
   expect(result).toMatchObject(expected)
 })
 
-fit('can crop the image 5', async () => {
+it('can crop the image 5', async () => {
   let base64 = loadImage('image_5.png')
   let expected = await loadExpected('image_5')
   let result = await autocrop(`data:image/png;base64,${base64}`)
