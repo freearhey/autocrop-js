@@ -1,19 +1,19 @@
 {
   "name": "autocrop-js",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.0.2",
+  "description": "Node.js utility that crops the background of an image",
   "main": "./src/index.js",
   "scripts": {
     "lint": "npx eslint ./src/**/*.js",
     "test": "npx jest"
   },
   "type": "module",
-  "keywords": [],
-  "author": "",
+  "keywords": ["image", "crop"],
+  "author": "Arhey",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/freearhey/autocrop-js"
   },
   "engines": {
     "node": ">=16.0.0"
