@@ -1,14 +1,13 @@
 import { Image } from 'image-js'
-import { calcBoundaryBox, getBgColor, removeBg, rgbToHex, getPixels, hexToRgb } from './util.js'
+import { getBgColor, calcBoundaryBox, rgbToHex } from './util.js'
 
 export default async function (dataURL, config = {}) {
-  config = { threshold: 0, alphaThreshold: 0, backgroundColor: null, ...config }
+  config = { threshold: 0, alphaThreshold: 0, ...config }
 
   let _image = await Image.load(dataURL)
   _image = new Image(_image.width, _image.height, _image.getRGBAData())
 
-  const _bgColor = config.backgroundColor ? hexToRgb(config.backgroundColor) : getBgColor(_image)
-  console.log(_bgColor)
+  const _bgColor = getBgColor(_image)
 
   const [x, y, width, height] = calcBoundaryBox(
     _image,

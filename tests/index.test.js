@@ -14,11 +14,21 @@ describe('can crop the images without config', () => {
   })
 })
 
-describe.only('can crop the images without config', () => {
+describe('can crop the images with config.threshold = 10', () => {
   test.concurrent.each(images)('%s', async filename => {
     let base64 = loadImage(`${filename}.png`)
     let expected = await loadExpected(`test2/${filename}`)
     let result = await autocrop(`data:image/png;base64,${base64}`, { threshold: 10 })
+
+    expect(result).toMatchObject(expected)
+  })
+})
+
+describe('can crop the images with config.alphaThreshold = 10', () => {
+  test.concurrent.each(images)('%s', async filename => {
+    let base64 = loadImage(`${filename}.png`)
+    let expected = await loadExpected(`test3/${filename}`)
+    let result = await autocrop(`data:image/png;base64,${base64}`, { alphaThreshold: 10 })
 
     expect(result).toMatchObject(expected)
   })
