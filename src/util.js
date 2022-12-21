@@ -1,31 +1,24 @@
 import _ from 'lodash'
 
-function calcMaxColor(color, threshold = 0, alphaThreshold = 0) {
+function calcMaxColor(color, alphaThreshold = 0) {
   if (color[3] <= alphaThreshold) return [0, 0, 0, 0]
 
-  return color.map(value => {
-    if (value === 0) return 0
-    const mod = (value + 1) % (threshold + 1)
-    value = value + (threshold - mod)
-    value = value > 255 ? 255 : value
-
-    return value
-  })
+  return color
 }
 
 function removeBg(pixel, bgColor) {
   return JSON.stringify(pixel) === JSON.stringify(bgColor) ? [0, 0, 0, 0] : pixel
 }
 
-export function calcBoundaryBox(image, bgColor, threshold, alphaThreshold) {
+export function calcBoundaryBox(image, bgColor, alphaThreshold) {
   let pixels = getPixels(image)
   let width = image.width
   let height = image.height
 
-  let maxColor = calcMaxColor(bgColor, threshold, alphaThreshold)
+  let maxColor = calcMaxColor(bgColor, alphaThreshold)
 
   pixels = pixels.map(p => {
-    p = calcMaxColor(p, threshold, alphaThreshold)
+    p = calcMaxColor(p, alphaThreshold)
     p = removeBg(p, maxColor)
 
     return p
