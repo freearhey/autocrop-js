@@ -2,13 +2,12 @@
   "name": "autocrop-js",
   "version": "0.0.1",
   "description": "",
-  "main": "dist/autocrop.js",
-  "type": "module",
+  "main": "./src/index.js",
   "scripts": {
-    "build": "npx babel src/index.js --out-file dist/autocrop.js",
     "lint": "npx eslint ./src/**/*.js",
     "test": "npx jest"
   },
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "MIT",
@@ -30,9 +29,7 @@
     "jest": "latest"
   },
   "dependencies": {
-    "@babel/cli": "^7.19.3",
     "image-js": "^0.35.2",
-    "lodash": "^4.17.21",
-    "pica": "^9.0.1"
+    "lodash": "^4.17.21"
   }
 }
