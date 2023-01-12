@@ -6,10 +6,6 @@ function calcMaxColor(color, alphaThreshold = 0) {
   return color
 }
 
-function removeBg(pixel, bgColor) {
-  return JSON.stringify(pixel) === JSON.stringify(bgColor) ? [0, 0, 0, 0] : pixel
-}
-
 export function calcBoundaryBox(image, bgColor, alphaThreshold) {
   let pixels = getPixels(image)
   let width = image.width
@@ -19,7 +15,6 @@ export function calcBoundaryBox(image, bgColor, alphaThreshold) {
 
   pixels = pixels.map(p => {
     p = calcMaxColor(p, alphaThreshold)
-    p = removeBg(p, maxColor)
 
     return p
   })
