@@ -1,6 +1,6 @@
 {
   "name": "autocrop-js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Node.js utility that crops the background of an image",
   "main": "./src/index.js",
   "scripts": {
