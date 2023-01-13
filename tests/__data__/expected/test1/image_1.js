@@ -1,5 +1,4 @@
 export default {
-  bgColor: '#000000',
   bbox: {
     height: 217,
     width: 454,
