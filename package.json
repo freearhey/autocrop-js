@@ -1,14 +1,14 @@
 {
   "name": "autocrop-js",
   "version": "0.2.0",
-  "description": "Node.js utility that crops the background of an image",
+  "description": "Node.js utility that crops the transparent background of an image",
   "main": "./src/index.js",
   "scripts": {
     "lint": "npx eslint ./src/**/*.js",
     "test": "npx jest"
   },
   "type": "module",
-  "keywords": ["image", "crop"],
+  "keywords": ["image", "crop", "transparent", "background"],
   "author": "Arhey",
   "license": "MIT",
   "repository": {
