@@ -2,7 +2,7 @@
 
 ![Illustration of how autocrop-js works (Used image from https://pixabay.com/illustrations/ai-generated-generative-ai-fantasy-7700016/)](illustration.png)
 
-Node.js utility that crops the background of an image.
+Node.js utility that crops the transparent background of an image.
 
 ## Installation
 
