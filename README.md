@@ -28,7 +28,6 @@ Output:
 
 ```js
 {
-  bgColor: '#ffffff', // background color of the image
   bbox: { // bounding box of the cut image fragment
     height: 188,
     width: 232,
