@@ -1,17 +1,9 @@
 import _ from 'lodash'
 
-function calcMaxColor(color, alphaThreshold = 0) {
-  if (color[3] <= alphaThreshold) return [0, 0, 0, 0]
-
-  return color
-}
-
-export function calcBoundaryBox(image, bgColor, alphaThreshold) {
+export function calcBoundaryBox(image, alphaThreshold) {
   let pixels = getPixels(image)
   let width = image.width
   let height = image.height
-
-  let maxColor = calcMaxColor(bgColor, alphaThreshold)
 
   pixels = pixels.map(p => {
     p = calcMaxColor(p, alphaThreshold)
@@ -90,28 +82,12 @@ export function calcBoundaryBox(image, bgColor, alphaThreshold) {
   return [x1, y1, newWidth, newHeight]
 }
 
-export function getBgColor(image) {
-  return image.getPixel(0)
-}
-
-export function getPixels(image) {
+function getPixels(image) {
   return _.chunk(image.getRGBAData(), 4)
 }
 
-export function rgbToHex(color) {
-  let [r, g, b] = color
+function calcMaxColor(color, alphaThreshold = 0) {
+  if (color[3] <= alphaThreshold) return [0, 0, 0, 0]
 
-  return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b)
-}
-
-export function hexToRgb(hex) {
-  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
-  return result
-    ? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16), 255]
-    : null
-}
-
-function componentToHex(c) {
-  var hex = c.toString(16)
-  return hex.length == 1 ? '0' + hex : hex
+  return color
 }
